@@ -33,7 +33,6 @@ const mockSocketSend = function (buffer, offset, length, port, host, callback) {
   const newBuffer = buffer.slice(offset, offset + length)
 
   const address = `${host}:${port}`
-  console.log(intercepts)
   if (!intercepts[address]) throw new Error(`Request sent to unmocked path: ${address}`)
 
   const scope = intercepts[address]
