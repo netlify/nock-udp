@@ -33,7 +33,8 @@ const mockSocketSend = function (buffer, offset, length, port, host, callback) {
   const newBuffer = buffer.slice(offset, offset + length)
 
   const address = `${host}:${port}`
-  if (!intercepts[address]) throw new Error(`Request sent to unmocked path: ${host}`)
+  console.log(intercepts)
+  if (!intercepts[address]) throw new Error(`Request sent to unmocked path: ${address}`)
 
   const scope = intercepts[address]
   scope.used = true
@@ -41,7 +42,7 @@ const mockSocketSend = function (buffer, offset, length, port, host, callback) {
   scope.offset = offset
   scope.length = length
 
-  if (!scope.persist) delete intercepts[host]
+  if (!scope.persist) delete intercepts[address]
 
   if (callback) return callback(null, length)
 }
@@ -49,7 +50,7 @@ const mockSocketSend = function (buffer, offset, length, port, host, callback) {
 mockSocketSend.mocked = true
 
 const isMocked = function () {
-  return Socket.prototype.send.mocked
+  return Boolean(Socket.prototype.send.mocked)
 }
 
 const intercept = function (address, { persist = false, startIntercept = true } = {}) {
@@ -77,4 +78,5 @@ module.exports = {
   cleanAll,
   restoreSocketSend,
   interceptSocketSend,
+  isMocked,
 }
