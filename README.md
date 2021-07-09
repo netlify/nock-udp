@@ -55,7 +55,7 @@ npm install @netlify/nock-udp
 
   const { restoreSocketSend, interceptSocketSend, isMocked } = require('@netlify/nock-udp')
 
-  // check if Socket.prototype.send is currently overriden
+  // check if Socket.prototype.send is currently overridden
   console.log(isMocked())
   // false
 
@@ -75,4 +75,3 @@ npm install @netlify/nock-udp
 
 Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for instructions on how to set up and work on this repository. Thanks
 for contributing!
-
