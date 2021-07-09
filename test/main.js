@@ -4,11 +4,55 @@ const { promisify } = require('util')
 
 const test = require('ava')
 
-const { intercept, cleanAll } = require('..')
+const { intercept, cleanAll, isMocked, interceptSocketSend } = require('..')
+
+const { createServer } = require('./helpers/udp_server')
 
 test.after(() => {
   cleanAll()
 })
+
+// Run this set of tests serially as they rely on global state
+
+test.serial('Requiring this module should not monkey patch Socket.send', (t) => {
+  t.false(isMocked())
+})
+
+test.serial('Intercepting an address should monkey patch by default and cleanAll should restore it', (t) => {
+  intercept('localhost:1234')
+  t.true(isMocked())
+  cleanAll()
+  t.false(isMocked())
+})
+
+test.serial('Intercepting can optionally not start the interception', (t) => {
+  intercept('localhost:1234', { startIntercept: false })
+  t.false(isMocked())
+  interceptSocketSend()
+  t.true(isMocked())
+  cleanAll()
+  t.false(isMocked())
+})
+
+test.serial('Intercepting can optionally allow messages to unknown hosts', async (t) => {
+  const port = '8800'
+  const buffer = Buffer.from('123')
+  const { server, getMessages } = createServer({ port })
+
+  interceptSocketSend({ allowUnknown: true })
+  t.true(isMocked())
+
+  const client = createSocket('udp4')
+  client.send(buffer, 0, buffer.length, port, 'localhost')
+  const msgs = await getMessages()
+  t.is(msgs[0].toString(), buffer.toString())
+
+  cleanAll()
+  server.close()
+  t.false(isMocked())
+})
+
+// We can run the next tests in parallel as we use different hosts for each
 
 test('Intercepting should stop after the first datagram received', async (t) => {
   const buffer = Buffer.from('test')

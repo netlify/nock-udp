@@ -29,6 +29,10 @@
     "prettier": "--ignore-path .gitignore --loglevel=warn \"{src,scripts,.github}/**/*.{js,md,yml,json,html}\" \"*.{js,yml,json,html}\" \".*.{js,yml,json,html}\" \"!**/package-lock.json\" \"!package-lock.json\""
   },
   "ava": {
+    "files": [
+      "test/**/*.js",
+      "!test/helpers"
+    ],
     "verbose": true
   },
   "husky": {
