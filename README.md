@@ -14,6 +14,8 @@ npm install @netlify/nock-udp
 ## Usage
 
 ```js
+  const { Buffer } = require('buffer')
+
   const { intercept, cleanAll } = require('@netlify/nock-udp')
 
   const buffer = Buffer.from('test')
@@ -49,6 +51,8 @@ npm install @netlify/nock-udp
 ### Other utility methods
 
 ```js
+  const { Buffer } = require('buffer')
+
   const { restoreSocketSend, interceptSocketSend, isMocked } = require('@netlify/nock-udp')
 
   // check if Socket.prototype.send is currently overriden
