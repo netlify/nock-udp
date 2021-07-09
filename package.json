@@ -1,6 +1,5 @@
 {
   "name": "@netlify/nock-udp",
-  "private": true,
   "version": "1.0.0",
   "description": "Here to mock your UDP packets",
   "main": "src/main.js",
