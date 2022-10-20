@@ -50,7 +50,7 @@
     "@commitlint/config-conventional": "^16.0.0",
     "@netlify/eslint-config-node": "^6.0.0",
     "ava": "^2.4.0",
-    "husky": "^7.0.4",
+    "husky": "^8.0.0",
     "nyc": "^15.0.0"
   },
   "engines": {
